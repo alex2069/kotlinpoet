@@ -42,7 +42,7 @@ internal class CodeWriter constructor(
   private val memberImports: Map<String, Import> = emptyMap(),
   val importedTypes: Map<String, ClassName> = emptyMap()
 ) {
-  private val out = LineWrapper(out, indent, 100)
+  private val out = LineWrapper(out, indent, 140)
   private var indentLevel = 0
 
   private var kdoc = false
@@ -247,12 +247,12 @@ internal class CodeWriter constructor(
         "%]" -> {
           check(statementLine != -1) { "statement exit %] has no matching statement enter %[" }
           if (statementLine > 0) {
-            unindent(2) // End a multi-line statement. Decrease the indentation level.
+            unindent(1) // End a multi-line statement. Decrease the indentation level.
           }
           statementLine = -1
         }
 
-        "%W" -> out.wrappingSpace(indentLevel + 2)
+        "%W" -> out.wrappingSpace(indentLevel + 1)
 
         else -> {
           // Handle deferred type.
@@ -459,7 +459,7 @@ internal class CodeWriter constructor(
         trailingNewline = true
         if (statementLine != -1) {
           if (statementLine == 0) {
-            indent(2) // Begin multiple-line statement. Increase the indentation level.
+            indent(1) // Begin multiple-line statement. Increase the indentation level.
           }
           statementLine++
         }
